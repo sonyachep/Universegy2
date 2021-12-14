@@ -1,9 +1,9 @@
 import sys
 
-from PyQt5 import uic, QtGui
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5 import uic
+from PyQt5.QtWidgets import QApplication, QMainWindow, QScrollArea, QWidget, QVBoxLayout
 
-from database2 import *
+from database import *
 
 
 class Universegy2(QMainWindow):
@@ -13,7 +13,7 @@ class Universegy2(QMainWindow):
         self.users = Users()
 
         super().__init__()
-        uic.loadUi('universegy2.ui', self)
+        uic.loadUi('universegy.ui', self)
         self.logged = False
         self.current_user = 0
         self.block = 0
@@ -83,6 +83,7 @@ class Universegy2(QMainWindow):
         self.task_number = 0
 
         self.run_to_page1()
+
         self.back_to_main_from_login.clicked.connect(self.run_to_page1)
         self.back_to_main_from_registration.clicked.connect(self.run_to_page1)
 
@@ -93,25 +94,32 @@ class Universegy2(QMainWindow):
         self.float_round.clicked.connect(self.run_to_page5)
         self.random_round.clicked.connect(self.run_to_page5)
         self.back_to_theme.clicked.connect(self.run_to_page5)
-        self.task1.clicked.connect(self.run_to_page6)
-        self.task2.clicked.connect(self.run_to_page6)
-        self.task3.clicked.connect(self.run_to_page6)
-        self.task4.clicked.connect(self.run_to_page6)
-        self.task5.clicked.connect(self.run_to_page6)
-        self.task6.clicked.connect(self.run_to_page6)
-        self.task7.clicked.connect(self.run_to_page6)
-        self.task8.clicked.connect(self.run_to_page6)
-        self.task9.clicked.connect(self.run_to_page6)
-        self.task10.clicked.connect(self.run_to_page6)
-        self.set_answer.clicked.connect(self.get_color)
+        self.task1.clicked.connect(self.show_tasks)
+        self.task2.clicked.connect(self.show_tasks)
+        self.task3.clicked.connect(self.show_tasks)
+        self.task4.clicked.connect(self.show_tasks)
+        self.task5.clicked.connect(self.show_tasks)
+        self.task6.clicked.connect(self.show_tasks)
+        self.task7.clicked.connect(self.show_tasks)
+        self.task8.clicked.connect(self.show_tasks)
+        self.task9.clicked.connect(self.show_tasks)
+        self.task10.clicked.connect(self.show_tasks)
+        self.task11.clicked.connect(self.show_tasks)
+        self.task12.clicked.connect(self.show_tasks)
+        self.task13.clicked.connect(self.show_tasks)
+        self.task14.clicked.connect(self.show_tasks)
+        self.task15.clicked.connect(self.show_tasks)
+        self.task16.clicked.connect(self.show_tasks)
+        self.task17.clicked.connect(self.show_tasks)
+        self.task18.clicked.connect(self.show_tasks)
+        self.task19.clicked.connect(self.show_tasks)
+        self.task20.clicked.connect(self.show_tasks)
 
-
+        self.set_answer.clicked.connect(self.write_current_answer)
 
         self.enterance.clicked.connect(self.log_in)
 
         self.set_user.clicked.connect(self.registrate)
-
-
 
     def run_to_page1(self):
         self.current_user = 0
@@ -152,8 +160,7 @@ class Universegy2(QMainWindow):
             self.run_to_page1()
 
     def run_to_page5(self):
-        '''self.task_view.setText('')
-        self.block_task_choices.setCurrentIndex(0)
+        self.task_view.setText('')
         block = self.sender().text()
         blocks_done = str(self.users.get_blocks(self.current_user))
         if block == 'Округление целых чисел':
@@ -169,7 +176,7 @@ class Universegy2(QMainWindow):
         if block == 'Случайные задания':
             self.block = 3
             if str(self.block) in blocks_done:
-                return'''
+                return
         self.stackedWidget.setCurrentIndex(4)
 
     def run_to_page6(self):
@@ -199,11 +206,9 @@ class Universegy2(QMainWindow):
             self.run_to_page1()
         self.registrationerror_label.setText(error)
 
-
-
     def show_tasks(self):
         try:
-            self.task_number = int(self.sender().currentText())
+            self.task_number = int(self.sender().text()[8:])
         except ValueError:
             return
         tasks = self.tasks.get_block(self.block)
@@ -232,7 +237,6 @@ class Universegy2(QMainWindow):
                 id = 20
             id_wrong, task_text, right_answer, block = self.tasks.get_task(id + (20 * (self.block - 1)))
 
-
             if student_answer == str(right_answer):
                 if len(f'{id}: +') < 5:
                     score += f'{id}:  +\n'
@@ -253,7 +257,6 @@ class Universegy2(QMainWindow):
         print(blocks_done)
         blocks_done += str(self.block)
         self.db.add_block_to_user(self.current_user, blocks_done)
-
 
 
 def except_hook(cls, exception, traceback):

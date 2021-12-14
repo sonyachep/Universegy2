@@ -1,7 +1,7 @@
 import sqlite3
-from exceptions2 import *
+from exceptions import *
 
-DATABASE = 'Universegy2.db'
+DATABASE = 'Universegy.db'
 
 
 class Database:
@@ -58,6 +58,7 @@ class Database:
     def add_block_to_user(self, user_id, blocks):
         self.cur.execute('''UPDATE users SET blocks_done = ? WHERE id = ?''', (blocks, user_id))
         self.connect.commit()
+
 
 class Users:
     def __init__(self):
