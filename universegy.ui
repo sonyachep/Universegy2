@@ -601,57 +601,6 @@ color: rgb(82, 82, 122);</string>
        <string>Случайные задания</string>
       </property>
      </widget>
-     <widget class="QLabel" name="done_2">
-      <property name="geometry">
-       <rect>
-        <x>560</x>
-        <y>270</y>
-        <width>141</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font: 15pt &quot;Yandex-UI-Icons-Private&quot;;
-color: rgb(82, 82, 122);</string>
-      </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Не выполнено&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="done_1">
-      <property name="geometry">
-       <rect>
-        <x>560</x>
-        <y>130</y>
-        <width>141</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font: 15pt &quot;Yandex-UI-Icons-Private&quot;;
-color: rgb(82, 82, 122);</string>
-      </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Не выполнено&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="done_3">
-      <property name="geometry">
-       <rect>
-        <x>560</x>
-        <y>410</y>
-        <width>141</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font: 15pt &quot;Yandex-UI-Icons-Private&quot;;
-color: rgb(82, 82, 122);</string>
-      </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Не выполнено&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="logout">
       <property name="geometry">
        <rect>
@@ -672,13 +621,289 @@ background-color: rgb(217, 247, 255);</string>
      </widget>
     </widget>
     <widget class="QWidget" name="page_5">
+     <widget class="QPushButton" name="set_answer">
+      <property name="geometry">
+       <rect>
+        <x>580</x>
+        <y>300</y>
+        <width>51</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 20pt &quot;Yandex-UI-Icons-Private&quot;;
+background-color: rgb(115, 206, 255);
+color: rgb(82, 82, 122);</string>
+      </property>
+      <property name="text">
+       <string>↵</string>
+      </property>
+      <property name="shortcut">
+       <string>Return</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="answer_edit">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>290</y>
+        <width>351</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(217, 247, 255);</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="next_task">
+      <property name="geometry">
+       <rect>
+        <x>580</x>
+        <y>420</y>
+        <width>81</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 20pt &quot;Yandex-UI-Icons-Private&quot;;
+background-color: rgb(115, 206, 255);
+color: rgb(82, 82, 122);</string>
+      </property>
+      <property name="text">
+       <string>-&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="title_universegy_2">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>161</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(82, 82, 122);
+font: 70pt &quot;Book Antiqua&quot;;
+background-color: rgb(217, 247, 255);</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;Universegy&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_10">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>300</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(82, 82, 122);
+font: 15pt &quot;Book Antiqua&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Ответ:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="go_main">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>440</y>
+        <width>121</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 15pt &quot;Yandex-UI-Icons-Private&quot;;
+background-color: rgb(115, 206, 255);
+color: rgb(82, 82, 122);</string>
+      </property>
+      <property name="text">
+       <string>На главную</string>
+      </property>
+     </widget>
+     <widget class="QTextBrowser" name="task_view">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>130</y>
+        <width>481</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>18</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(217, 247, 255);</string>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>679</x>
+        <y>30</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(214, 214, 214)</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:28pt;&quot;&gt;№&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="task_amount">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>30</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>24</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(214, 214, 214)</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="right_label">
+      <property name="geometry">
+       <rect>
+        <x>590</x>
+        <y>30</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>24</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: green</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="wrong_label">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>30</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>24</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: red
+</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_6">
+     <widget class="QLabel" name="label_12">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>290</y>
+        <width>91</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Ответ</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_13">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>310</y>
+        <width>91</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Верно_Неверно</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="back_to_theme">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>440</y>
+        <width>111</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Вернуться в тему</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_3">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>430</y>
+        <width>111</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Прошлое задание</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_4">
+      <property name="geometry">
+       <rect>
+        <x>630</x>
+        <y>430</y>
+        <width>111</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>След задание</string>
+      </property>
+     </widget>
      <widget class="QScrollArea" name="scrollArea">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>160</y>
-        <width>131</width>
-        <height>341</height>
+        <x>220</x>
+        <y>50</y>
+        <width>171</width>
+        <height>391</height>
        </rect>
       </property>
       <property name="horizontalScrollBarPolicy">
@@ -691,14 +916,17 @@ background-color: rgb(217, 247, 255);</string>
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-253</y>
-         <width>112</width>
+         <y>0</y>
+         <width>152</width>
          <height>592</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="8" column="0">
          <widget class="QPushButton" name="task9">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(115, 206, 255);</string>
+          </property>
           <property name="text">
            <string>Задание 9</string>
           </property>
@@ -706,6 +934,9 @@ background-color: rgb(217, 247, 255);</string>
         </item>
         <item row="5" column="0">
          <widget class="QPushButton" name="task6">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(115, 206, 255);</string>
+          </property>
           <property name="text">
            <string>Задание 6</string>
           </property>
@@ -713,6 +944,9 @@ background-color: rgb(217, 247, 255);</string>
         </item>
         <item row="0" column="0">
          <widget class="QPushButton" name="task1">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(115, 206, 255);</string>
+          </property>
           <property name="text">
            <string>Задание 1</string>
           </property>
@@ -720,6 +954,9 @@ background-color: rgb(217, 247, 255);</string>
         </item>
         <item row="2" column="0">
          <widget class="QPushButton" name="task3">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(115, 206, 255);</string>
+          </property>
           <property name="text">
            <string>Задание 3</string>
           </property>
@@ -727,6 +964,9 @@ background-color: rgb(217, 247, 255);</string>
         </item>
         <item row="1" column="0">
          <widget class="QPushButton" name="task2">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(115, 206, 255);</string>
+          </property>
           <property name="text">
            <string>Задание 2</string>
           </property>
@@ -734,6 +974,9 @@ background-color: rgb(217, 247, 255);</string>
         </item>
         <item row="9" column="0">
          <widget class="QPushButton" name="task10">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(115, 206, 255);</string>
+          </property>
           <property name="text">
            <string>Задание 10</string>
           </property>
@@ -741,6 +984,9 @@ background-color: rgb(217, 247, 255);</string>
         </item>
         <item row="7" column="0">
          <widget class="QPushButton" name="task8">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(115, 206, 255);</string>
+          </property>
           <property name="text">
            <string>Задание 8</string>
           </property>
@@ -748,6 +994,9 @@ background-color: rgb(217, 247, 255);</string>
         </item>
         <item row="19" column="0">
          <widget class="QPushButton" name="task20">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(115, 206, 255);</string>
+          </property>
           <property name="text">
            <string>Задание 20</string>
           </property>
@@ -755,6 +1004,9 @@ background-color: rgb(217, 247, 255);</string>
         </item>
         <item row="18" column="0">
          <widget class="QPushButton" name="task19">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(115, 206, 255);</string>
+          </property>
           <property name="text">
            <string>Задание 19</string>
           </property>
@@ -762,6 +1014,9 @@ background-color: rgb(217, 247, 255);</string>
         </item>
         <item row="12" column="0">
          <widget class="QPushButton" name="task13">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(115, 206, 255);</string>
+          </property>
           <property name="text">
            <string>Задание 13</string>
           </property>
@@ -769,6 +1024,9 @@ background-color: rgb(217, 247, 255);</string>
         </item>
         <item row="10" column="0">
          <widget class="QPushButton" name="task11">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(115, 206, 255);</string>
+          </property>
           <property name="text">
            <string>Задание 11</string>
           </property>
@@ -776,6 +1034,9 @@ background-color: rgb(217, 247, 255);</string>
         </item>
         <item row="14" column="0">
          <widget class="QPushButton" name="task15">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(115, 206, 255);</string>
+          </property>
           <property name="text">
            <string>Задание 15</string>
           </property>
@@ -783,6 +1044,9 @@ background-color: rgb(217, 247, 255);</string>
         </item>
         <item row="15" column="0">
          <widget class="QPushButton" name="task16">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(115, 206, 255);</string>
+          </property>
           <property name="text">
            <string>Задание 16</string>
           </property>
@@ -790,6 +1054,9 @@ background-color: rgb(217, 247, 255);</string>
         </item>
         <item row="6" column="0">
          <widget class="QPushButton" name="task7">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(115, 206, 255);</string>
+          </property>
           <property name="text">
            <string>Задание 7</string>
           </property>
@@ -797,6 +1064,9 @@ background-color: rgb(217, 247, 255);</string>
         </item>
         <item row="13" column="0">
          <widget class="QPushButton" name="task14">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(115, 206, 255);</string>
+          </property>
           <property name="text">
            <string>Задание 14</string>
           </property>
@@ -804,6 +1074,9 @@ background-color: rgb(217, 247, 255);</string>
         </item>
         <item row="4" column="0">
          <widget class="QPushButton" name="task5">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(115, 206, 255);</string>
+          </property>
           <property name="text">
            <string>Задание 5</string>
           </property>
@@ -811,6 +1084,9 @@ background-color: rgb(217, 247, 255);</string>
         </item>
         <item row="3" column="0">
          <widget class="QPushButton" name="task4">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(115, 206, 255);</string>
+          </property>
           <property name="text">
            <string>Задание 4</string>
           </property>
@@ -818,6 +1094,9 @@ background-color: rgb(217, 247, 255);</string>
         </item>
         <item row="11" column="0">
          <widget class="QPushButton" name="task12">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(115, 206, 255);</string>
+          </property>
           <property name="text">
            <string>Задание 12</string>
           </property>
@@ -825,6 +1104,9 @@ background-color: rgb(217, 247, 255);</string>
         </item>
         <item row="17" column="0">
          <widget class="QPushButton" name="task18">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(115, 206, 255);</string>
+          </property>
           <property name="text">
            <string>Задание 18</string>
           </property>
@@ -832,6 +1114,9 @@ background-color: rgb(217, 247, 255);</string>
         </item>
         <item row="16" column="0">
          <widget class="QPushButton" name="task17">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(115, 206, 255);</string>
+          </property>
           <property name="text">
            <string>Задание 17</string>
           </property>
@@ -895,8 +1180,7 @@ border-radius: 6px</string>
         <item row="5" column="1">
          <widget class="QLabel" name="task6_label">
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(217, 247, 255);
-border-radius: 6px</string>
+           <string notr="true">background-color: rgb(217, 247, 255); border-radius: 6px</string>
           </property>
           <property name="text">
            <string/>
@@ -1061,137 +1345,6 @@ border-radius: 6px</string>
         </item>
        </layout>
       </widget>
-     </widget>
-     <widget class="QTextBrowser" name="task_view">
-      <property name="geometry">
-       <rect>
-        <x>180</x>
-        <y>10</y>
-        <width>481</width>
-        <height>381</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="set_answer">
-      <property name="geometry">
-       <rect>
-        <x>560</x>
-        <y>410</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>↵</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="answer_edit">
-      <property name="geometry">
-       <rect>
-        <x>180</x>
-        <y>410</y>
-        <width>351</width>
-        <height>51</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="go_test">
-      <property name="geometry">
-       <rect>
-        <x>690</x>
-        <y>450</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>К Кр</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="title_universegy_2">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>161</width>
-        <height>91</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: rgb(82, 82, 122);
-font: 70pt &quot;Book Antiqua&quot;;
-background-color: rgb(217, 247, 255);</string>
-      </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;Universegy&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="page_6">
-     <widget class="QLabel" name="label_12">
-      <property name="geometry">
-       <rect>
-        <x>90</x>
-        <y>290</y>
-        <width>91</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Ответ</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_13">
-      <property name="geometry">
-       <rect>
-        <x>430</x>
-        <y>310</y>
-        <width>91</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Верно_Неверно</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="back_to_theme">
-      <property name="geometry">
-       <rect>
-        <x>350</x>
-        <y>440</y>
-        <width>111</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Вернуться в тему</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton_3">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>430</y>
-        <width>111</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Прошлое задание</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton_4">
-      <property name="geometry">
-       <rect>
-        <x>630</x>
-        <y>430</y>
-        <width>111</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>След задание</string>
-      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="page"/>

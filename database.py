@@ -42,21 +42,33 @@ class Database:
             return 0, False, 'Неверный логин или пароль'
 
     def add_user(self, name, surname, student_class):
-        self.cur.execute('''INSERT INTO users (name, surname, class, blocks_done)
-                        VALUES(?, ?, ?, ?)''', (name, surname, student_class, ''))
+        self.cur.execute('''INSERT INTO users (name, surname, class)
+                        VALUES(?, ?, ?)''', (name, surname, student_class))
 
     def add_user_data(self, user_id, login, password, is_teacher):
         self.cur.execute('''INSERT INTO users_data (user_id, login, password, rights)
                                         VALUES(?, ?, ?, ?)''', (user_id, login, password, is_teacher))
 
-    def add_relation(self, user_id, task_id):
-        print(user_id, task_id)
-        self.cur.execute('''INSERT INTO relations (user_id, task_id)
-                                                VALUES(?, ?)''', (user_id, task_id))
+    def add_relation(self, user_id, task_block, tasks_done, right_answer):
+        self.cur.execute('''INSERT INTO relations (user_id, task_block, tasks_done, right_answers)
+                                                VALUES(?, ?, ?, ?)''', (user_id, task_block, tasks_done, right_answer))
         self.connect.commit()
 
-    def add_block_to_user(self, user_id, blocks):
-        self.cur.execute('''UPDATE users SET blocks_done = ? WHERE id = ?''', (blocks, user_id))
+    def get_relation(self, user_id, task_block):
+        relation = self.cur.execute(f'''SELECT * FROM relations 
+                            WHERE user_id = {user_id} and task_block = {task_block}''').fetchall()
+        return relation
+
+    def get_task_amount_and_right(self, user_id, task_block):
+        task_amount = self.cur.execute(f'''SELECT tasks_done, right_answers FROM relations 
+                                            WHERE user_id = {user_id} AND task_block = {task_block}''').fetchall()[0]
+        return task_amount
+
+    def update_relation(self, user_id, task_block, tasks_done, right_answer):
+        self.cur.execute(f'''UPDATE relations SET tasks_done = {tasks_done} 
+                                WHERE  user_id = {user_id} and task_block = {task_block}''')
+        self.cur.execute(f'''UPDATE relations SET right_answers = {right_answer} 
+                                WHERE  user_id = {user_id} and task_block = {task_block}''')
         self.connect.commit()
 
 
@@ -69,9 +81,6 @@ class Users:
 
     def get_user(self, id):
         return self.db.cur.execute('''SELECT * FROM users WHERE id = ?''', (id,)).fetchall()[0]
-
-    def get_blocks(self, id):
-        return str(self.db.cur.execute('''SELECT blocks_done FROM users WHERE id = ?''', (id,)).fetchall()[0][0])
 
 
 class Users_data:
@@ -91,35 +100,23 @@ class Users_data:
         WHERE user_id = ?''', (user_id,)).fetchall()[0]
         return id, login, password, bool(rights)
 
-
-class Tasks:
-    def __init__(self):
-        self.db = Database()
-
-    def get_all(self):
-        return self.db.cur.execute('''SELECT * FROM tasks''').fetchall()
-
-    def get_task(self, task_id):
-        id, task_text, answer, block = self.db.cur.execute('''SELECT * FROM tasks 
-        WHERE task_id = ?''', (task_id,)).fetchall()[0]
-        return id, task_text, answer, block
-
-    def get_block(self, block):
-        data = self.db.cur.execute('''SELECT * FROM tasks WHERE block = ?''', (block,)).fetchall()
-        new_data = []
-        for elem in data:
-            id, task_text, answer, block = elem
-            new_data.append((id, task_text, answer))
-        return new_data
-
-
-task = Tasks()
-print(task.get_all())
-print(task.get_task(2))
-print(task.get_block(1))
-
-# user_data = Users_data()
-# print(user_data.get_all())
+# class Tasks:
+#     def __init__(self):
+#         self.db = Database()
 #
-# print(user_data.get_user_data(1))
-# print(user_data.get_user_data(2))
+#     def get_all(self):
+#         return self.db.cur.execute('''SELECT * FROM tasks''').fetchall()
+#
+#     def get_task(self, task_id):
+#         id, task_text, answer, block = self.db.cur.execute('''SELECT * FROM tasks
+#         WHERE task_id = ?''', (task_id,)).fetchall()[0]
+#         return id, task_text, answer, block
+#
+#     def get_block(self, block):
+#         data = self.db.cur.execute('''SELECT * FROM tasks WHERE block = ?''', (block,)).fetchall()
+#         new_data = []
+#         for elem in data:
+#             id, task_text, answer, block = elem
+#             new_data.append((id, task_text, answer))
+#         return new_data
+#
