@@ -14,6 +14,7 @@ FLOAT = {'десятых': [1, 2],
          'сотых': [2, 3],
          'тысячных': [3, 4]}
 
+
 def round_float(num, i):
     orig_num, str_num = str(num).split('.')
     if len(str_num) > i:
@@ -72,14 +73,14 @@ def make_task(block):
     return text, answer
 
 
-
-class Universegy2(QMainWindow):
+class Universegy(QMainWindow):
     def __init__(self):
         self.db = Database()
         self.users = Users()
 
         super().__init__()
         uic.loadUi('universegy.ui', self)
+        self.setWindowTitle('Universegy')
         self.logged = False
         self.current_user = 0
         self.block = 0
@@ -129,6 +130,8 @@ class Universegy2(QMainWindow):
         self.enterance.clicked.connect(self.log_in)
 
         self.set_user.clicked.connect(self.registrate)
+        self.show_password_reg.stateChanged.connect(self.show_pass_reg)
+        self.show_password_login.stateChanged.connect(self.show_pass_login)
 
     def run_to_page1(self):
         self.current_user = 0
@@ -210,6 +213,18 @@ class Universegy2(QMainWindow):
     def run_to_page6(self):
         self.stackedWidget.setCurrentIndex(5)
 
+    def show_pass_reg(self):
+        if self.show_password_reg.checkState():
+            self.password_edit.setEchoMode(0)
+        else:
+            self.password_edit.setEchoMode(2)
+
+    def show_pass_login(self):
+        if self.show_password_login.checkState():
+            self.password_in_edit.setEchoMode(0)
+        else:
+            self.password_in_edit.setEchoMode(2)
+
     def log_in(self):
         login = self.login_in_edit.text()
         password = self.password_in_edit.text()
@@ -259,8 +274,8 @@ class Universegy2(QMainWindow):
         #     if id == self.task_number:
         text, self.answer = make_task(self.block)
         self.task_view.setText(text)
-            # self.answer_edit.setText(self.answers[self.block][self.task_number])
-            # break
+        # self.answer_edit.setText(self.answers[self.block][self.task_number])
+        # break
 
     def write_current_answer(self):
         student_answer = self.answer_edit.text()
@@ -275,7 +290,6 @@ class Universegy2(QMainWindow):
         # self.wrong_label.setText(str(self.wrong_answer))
         # self.task_amount.setText(str(self.task_number))
         self.show_tasks()
-
 
     def check_answer(self, student_answer):
         if student_answer == str(self.answer):
@@ -368,14 +382,13 @@ class Universegy2(QMainWindow):
         #         self.task20_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
 
 
-
 def except_hook(cls, exception, traceback):
     sys.__excepthook__(cls, exception, traceback)
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = Universegy2()
+    ex = Universegy()
     ex.show()
     sys.excepthook = except_hook
     sys.exit(app.exec_())
