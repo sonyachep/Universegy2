@@ -4,7 +4,13 @@ import random
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QScrollArea, QWidget, QVBoxLayout
 
+from data import db_session
+from data.users import User
+from data.tasks import Tasks
+
 from database import *
+
+db_session.global_init("db/Universegy.db")
 
 INTEGERS = {'целого': [10, 1],
             'десятков': [100, 2],
@@ -203,11 +209,13 @@ class Universegy(QMainWindow):
             self.wrong_answer = 0
         self.stackedWidget.setCurrentIndex(4)
         try:
-            self.task_number, self.right_answer = self.db.get_task_amount_and_right(self.current_user, self.block)
+            self.task_number, self.right_answer = self.db.get_task_amount_and_right(self.current_user, self.block,
+                                                                                    str(datetime.datetime.now().date()))
             self.wrong_answer = self.task_number - self.right_answer
             self.task_number += 1
         except IndexError:
             pass
+        self.previous_answer.setText('')
         self.show_tasks()
 
     def run_to_page6(self):
@@ -282,8 +290,9 @@ class Universegy(QMainWindow):
         self.answer_edit.setText('')
         self.check_answer(student_answer)
         self.task_number += 1
-        if self.db.get_relation(self.current_user, self.block):
-            self.db.update_relation(self.current_user, self.block, self.task_number - 1, self.right_answer)
+        if self.db.get_relation(self.current_user, self.block, date=str(datetime.datetime.now().date())):
+            self.db.update_relation(self.current_user, self.block, self.task_number - 1, self.right_answer,
+                                    date=str(datetime.datetime.now().date()))
         else:
             self.db.add_relation(self.current_user, self.block, self.task_number - 1, self.right_answer)
         # self.right_label.setText(str(self.right_answer))
@@ -292,10 +301,12 @@ class Universegy(QMainWindow):
         self.show_tasks()
 
     def check_answer(self, student_answer):
-        if student_answer == str(self.answer):
+        if student_answer == str(self.answer) or student_answer == ','.join(str(self.answer).split('.')):
             self.right_answer += 1
+            self.previous_answer.setText('')
         else:
             self.wrong_answer += 1
+            self.previous_answer.setText(f'Предыдущий ответ был: {self.answer}, будь внимательнее!')
             # self.db.add_relation(self.current_user, id + (20 * (self.block - 1)))
             # self.answers[self.block][self.task_number] = student_answer
             # self.set_answer.hide()

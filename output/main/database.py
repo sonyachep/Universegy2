@@ -1,27 +1,30 @@
-import sqlite3
+import datetime
 from exceptions import *
+from data import db_session
+from data.users import User
+from data.tasks import Tasks
 
-DATABASE = 'Universegy.db'
+db_session.global_init("db/Universegy.db")
 
 
 class Database:
-    def __init__(self):
-        self.connect = sqlite3.connect(DATABASE)
-        self.cur = self.connect.cursor()
-
-    def registration(self, name, surname, student_class, login, password, is_teacher):
+    def registration(self, name, surname, grade, login, password, rights=0):
         try:
-            logins = self.cur.execute('''SELECT login FROM users_data''').fetchall()[0][0]
-            if login in logins:
+            db_sess = db_session.create_session()
+            if db_sess.query(User).filter(User.login == login).first():
                 raise LoginAlreadyExists
-            if name == '' or surname == '' or student_class == '' or login == '' or password == '':
+            if name == '' or surname == '' or grade == '' or login == '' or password == '':
                 raise NotEnoughData
-            self.add_user(name, surname, student_class)
-            self.connect.commit()
-            user_id = self.cur.execute('''SELECT id FROM users WHERE name = ?''', (name,)).fetchall()[0][0]
-
-            self.add_user_data(user_id, login, password, is_teacher)
-            self.connect.commit()
+            user = User(
+                login=login,
+                name=name,
+                surname=surname,
+                grade=grade,
+                rights=rights,
+            )
+            user.set_password(password)
+            db_sess.add(user)
+            db_sess.commit()
         except LoginAlreadyExists:
             return 'Логин занят'
         except NotEnoughData:
@@ -31,56 +34,59 @@ class Database:
 
     def log_in(self, login, password):
         try:
-            all_users = self.cur.execute('''SELECT user_id, login, password FROM users_data''').fetchall()
-            log_pass = [(str(elem[1]), str(elem[2])) for elem in all_users]
-            ids = [elem[0] for elem in all_users]
-            if (login, password) in log_pass:
-                return ids[log_pass.index((login, password))], True, ''
+            db_sess = db_session.create_session()
+            user = db_sess.query(User).filter(User.login == login).first()
+            if user and user.check_password(password):
+                return user.id, True, ''
             else:
                 raise UserNotFoundError
         except UserNotFoundError:
             return 0, False, 'Неверный логин или пароль'
 
-    def add_user(self, name, surname, student_class):
-        self.cur.execute('''INSERT INTO users (name, surname, class)
-                        VALUES(?, ?, ?)''', (name, surname, student_class))
-
-    def add_user_data(self, user_id, login, password, is_teacher):
-        self.cur.execute('''INSERT INTO users_data (user_id, login, password, rights)
-                                        VALUES(?, ?, ?, ?)''', (user_id, login, password, is_teacher))
-
     def add_relation(self, user_id, task_block, tasks_done, right_answer):
-        self.cur.execute('''INSERT INTO relations (user_id, task_block, tasks_done, right_answers)
-                                                VALUES(?, ?, ?, ?)''', (user_id, task_block, tasks_done, right_answer))
-        self.connect.commit()
+        db_sess = db_session.create_session()
+        tasks = Tasks(
+            user_id=user_id,
+            task_block=task_block,
+            tasks_done=tasks_done,
+            right_answers=right_answer,
+            date=str(datetime.datetime.now().date()),
+        )
+        db_sess.add(tasks)
+        db_sess.commit()
 
-    def get_relation(self, user_id, task_block):
-        relation = self.cur.execute(f'''SELECT * FROM relations 
-                            WHERE user_id = {user_id} and task_block = {task_block}''').fetchall()
+    def get_relation(self, user_id, task_block, date):
+        db_sess = db_session.create_session()
+        relation = db_sess.query(Tasks).filter(Tasks.user_id == user_id, Tasks.task_block == task_block,
+                                               Tasks.date == date).first()
         return relation
 
-    def get_task_amount_and_right(self, user_id, task_block):
-        task_amount = self.cur.execute(f'''SELECT tasks_done, right_answers FROM relations 
-                                            WHERE user_id = {user_id} AND task_block = {task_block}''').fetchall()[0]
-        return task_amount
+    def get_task_amount_and_right(self, user_id, task_block, date):
+        db_sess = db_session.create_session()
+        relation = db_sess.query(Tasks).filter(Tasks.user_id == user_id, Tasks.task_block == task_block,
+                                               Tasks.date == date).first()
+        if relation:
+            return relation.tasks_done, relation.right_answers
+        return 0, 0
 
-    def update_relation(self, user_id, task_block, tasks_done, right_answer):
-        self.cur.execute(f'''UPDATE relations SET tasks_done = {tasks_done} 
-                                WHERE  user_id = {user_id} and task_block = {task_block}''')
-        self.cur.execute(f'''UPDATE relations SET right_answers = {right_answer} 
-                                WHERE  user_id = {user_id} and task_block = {task_block}''')
-        self.connect.commit()
+    def update_relation(self, user_id, task_block, tasks_done, right_answer, date):
+        db_sess = db_session.create_session()
+        relation = db_sess.query(Tasks).filter(Tasks.user_id == user_id, Tasks.task_block == task_block,
+                                               Tasks.date == date).first()
+        if relation:
+            relation.tasks_done = tasks_done
+            relation.right_answer = right_answer
+            db_sess.commit()
 
 
 class Users:
-    def __init__(self):
-        self.db = Database()
-
     def get_all(self):
-        return self.db.cur.execute('''SELECT * FROM users''').fetchall()
+        db_sess = db_session.create_session()
+        return db_sess.query(User).all()
 
     def get_user(self, id):
-        return self.db.cur.execute('''SELECT * FROM users WHERE id = ?''', (id,)).fetchall()[0]
+        db_sess = db_session.create_session()
+        return db_sess.query(User).filter(User.id == id).first()
 
 
 class Users_data:
@@ -88,16 +94,17 @@ class Users_data:
         self.db = Database()
 
     def get_all(self):
-        data = self.db.cur.execute('''SELECT * FROM users_data''').fetchall()
+        db_sess = db_session.create_session()
+        data = db_sess.query(User).all()
         new_data = []
-        for elem in data:
-            id, login, password, rights = elem
+        for user in data:
+            id, login, password, rights = user.id, user.login, user.password, user.rights
             new_data.append((id, login, password, bool(rights)))
         return new_data
 
     def get_user_data(self, user_id):
-        id, login, password, rights = self.db.cur.execute('''SELECT * FROM users_data 
-        WHERE user_id = ?''', (user_id,)).fetchall()[0]
+        db_sess = db_session.create_session()
+        id, login, password, rights = db_sess.query(User).filter(User.id == id).first()
         return id, login, password, bool(rights)
 
 # class Tasks:
