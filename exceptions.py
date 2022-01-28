@@ -6,6 +6,10 @@ class UserNotFoundError(AuthorizationError):
     pass
 
 
+class UrrTeacherError(AuthorizationError):
+    pass
+
+
 class LoginAlreadyExists(AuthorizationError):
     pass
 

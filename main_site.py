@@ -12,9 +12,14 @@ app = Flask(__name__)
 api = Api(app)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
+login_manager = LoginManager()
+login_manager.init_app(app)
 
-# login_manager = LoginManager()
-# login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    db_sess = db_session.create_session()
+    return db_sess.query(User).get(user_id)
 
 
 @app.route('/')
@@ -26,16 +31,39 @@ def start():
 def log_in():
     form = LoginForm()
     if form.validate_on_submit():
-        return redirect('/students')
+        print(1)
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.login == form.login.data).first()
+        if user and user.check_password(form.password.data):
+            if user.rights == 0:
+                return render_template('log_in.html',
+                                       message="Вы не учитель",
+                                       form=form)
+            login_user(user, remember=form.remember_me.data)
+            return redirect('/students')
+        return render_template('log_in.html',
+                               message="Неверный логин или пароль",
+                               form=form)
+
     return render_template('log_in.html', title='Авторизация', form=form)
 
 
+@app.route('/log_out')
+@login_required
+def logout():
+    logout_user()
+    return redirect("/")
+
+
 @app.route('/students', methods=['GET', 'POST'])
+@login_required
 def students():
     db_sess = db_session.create_session()
     users = db_sess.query(User).all()
     people = {}
     for user in users:
+        if user.rights == 1:
+            continue
         sorted_tasks = {}
         sum_first = 0
         sum_second = 0
@@ -61,7 +89,6 @@ def students():
                                                            3: sum_third},
                                                  'date': sorted_tasks}
     print(people)
-
 
     return render_template('students.html', people=people)
 

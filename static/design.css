@@ -114,7 +114,6 @@ header {
 #login {
     background: url("img/vertical_cloth.png") repeat left top;
     height: 100%;
-    min-height: 500px;
 }
 
 #login .login-wr {

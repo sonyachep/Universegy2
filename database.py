@@ -37,10 +37,20 @@ class Database:
         try:
             db_sess = db_session.create_session()
             user = db_sess.query(User).filter(User.login == login).first()
-            if user and user.check_password(password):
-                return user.id, True, ''
+            if user:
+                if user.rights == 1:
+                    raise UrrTeacherError
+                if user.check_password(password):
+                    return user.id, True, ''
+                else:
+                    raise UserNotFoundError
             else:
-                raise UserNotFoundError
+                raise NotEnoughData
+        except NotEnoughData:
+            return 0, False, 'Введите логин'
+        except UrrTeacherError:
+            return 0, False, 'Вы учитель, воспользуйтесь сайтом'
+
         except UserNotFoundError:
             return 0, False, 'Неверный логин или пароль'
 

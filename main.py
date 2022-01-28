@@ -157,7 +157,6 @@ class Universegy(QMainWindow):
         self.login_edit.setText('')
         self.password_edit.setText('')
         self.registrationerror_label.setText('')
-        self.is_teacher.setCheckState(False)
         self.stackedWidget.setCurrentIndex(2)
 
     def run_to_page4(self):
@@ -247,8 +246,7 @@ class Universegy(QMainWindow):
         student_class = self.class_choice.currentText()
         login = self.login_edit.text()
         password = self.password_edit.text()
-        is_teacher = int(self.is_teacher.checkState())
-        error = self.db.registration(name, surname, student_class, login, password, is_teacher)
+        error = self.db.registration(name, surname, student_class, login, password)
         if not error:
             self.run_to_page1()
         self.registrationerror_label.setText(error)

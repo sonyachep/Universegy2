@@ -43,7 +43,7 @@
      <string notr="true">background-color: rgb(255, 255, 210);</string>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="page_1">
      <widget class="QLabel" name="title_universegy">
@@ -214,9 +214,9 @@ background-color: rgb(217, 247, 255);</string>
      <widget class="QLabel" name="login_error_label">
       <property name="geometry">
        <rect>
-        <x>500</x>
+        <x>380</x>
         <y>390</y>
-        <width>271</width>
+        <width>391</width>
         <height>31</height>
        </rect>
       </property>
@@ -565,26 +565,6 @@ background-color: rgb(217, 247, 255);</string>
       <property name="text">
        <string>Вернуться на
 главную</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="is_teacher">
-      <property name="geometry">
-       <rect>
-        <x>140</x>
-        <y>430</y>
-        <width>101</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: rgb(82, 82, 122);
-font: 15pt &quot;Yandex-UI-Icons-Private&quot;;
-background-color: rgb(217, 247, 255);
-border: 1px solid  rgb(82, 82, 122);
-border-radius: 5px;</string>
-      </property>
-      <property name="text">
-       <string>Учитель</string>
       </property>
      </widget>
      <widget class="QCheckBox" name="show_password_reg">
@@ -997,7 +977,7 @@ color: rgb(82, 82, 122);</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>152</width>
+         <width>104</width>
          <height>592</height>
         </rect>
        </property>
