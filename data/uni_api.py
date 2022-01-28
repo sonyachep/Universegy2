@@ -20,7 +20,7 @@ def abort_if_deck_not_found(id):
         abort(404, message=f"User {id} not found")
 
 
-class DeckResource(Resource):
+class UniResource(Resource):
     def get(self, id):
         abort_if_deck_not_found(id)
         session = db_session.create_session()

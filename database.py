@@ -1,4 +1,5 @@
 import datetime
+import sqlite3
 from exceptions import *
 from data import db_session
 from data.users import User
@@ -70,13 +71,11 @@ class Database:
         return 0, 0
 
     def update_relation(self, user_id, task_block, tasks_done, right_answer, date):
-        db_sess = db_session.create_session()
-        relation = db_sess.query(Tasks).filter(Tasks.user_id == user_id, Tasks.task_block == task_block,
-                                               Tasks.date == date).first()
-        if relation:
-            relation.tasks_done = tasks_done
-            relation.right_answer = right_answer
-            db_sess.commit()
+        connect = sqlite3.connect('db/Universegy.db')
+        cur = connect.cursor()
+        cur.execute('''UPDATE relations SET tasks_done = ? WHERE user_id = ? and date = ? and task_block = ?''', (tasks_done, user_id, date, task_block))
+        cur.execute('''UPDATE relations SET right_answers = ? WHERE user_id = ? and date = ? and task_block = ?''', (right_answer, user_id, date, task_block))
+        connect.commit()
 
 
 class Users:

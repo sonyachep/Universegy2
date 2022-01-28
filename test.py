@@ -10,7 +10,7 @@ api = Api(app)
 
 def main():
     db_session.global_init("db/Universegy.db")
-    api.add_resource(uni_api.DeckResource, '/api/uni/<int:id>')
+    api.add_resource(uni_api.UniResourse, '/api/uni/<int:id>')
     app.run()
 
 

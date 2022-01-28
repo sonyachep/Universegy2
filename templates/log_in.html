@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static',filename='design.css') }}">
+    <title>Шапка сайта</title>
+</head>
+<body>
+
+<div id="block-body">
+    <header>
+        <div class="logo">
+            <a href="universegy.html">
+                <span class="universegy">UNIVERSEGY</span>
+            </a>
+        </div>
+
+        <div class="top-menu">
+            <ul>
+                <li><a href="students">Ученики</a></li>
+                <li><a href="#">Видеоуроки</a></li>
+                <li><a href="#">Об авторе</a></li>
+                <li><a href="#">Обратная связь</a></li>
+            </ul>
+        </div>
+
+        <div class="block-top-auth">
+            <p><a href="log_in.html">Вход</a></p>
+        </div>
+
+
+    </header>
+    <div id="login">
+
+        <div class="outer">
+            <div class="middle">
+                <div class="inner">
+
+                    <div class="login-wr">
+                        <h2>Вход</h2>
+
+                        <div class="form">
+                            <form action="" method="post">
+                                {{ form.hidden_tag() }}
+                                <p>
+                                    {{ form.login.label }}<br>
+
+                                    {{ form.login(class="form-control") }}<br>
+                                    {% for error in form.login.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ error }}
+                                </div>
+                                {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.password.label }}<br>
+                                    {{ form.password(class="form-control", type="password") }}<br>
+                                    {% for error in form.password.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ error }}
+                                </div>
+                                {% endfor %}
+                                </p>
+                                <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
