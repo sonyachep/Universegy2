@@ -32,7 +32,7 @@ header {
     margin-left: 15px;
     margin-top: 25px;
     font-size: 28px;
-    color:  #b2aeb2;
+    color: #b2aeb2;
     text-decoration: none;
     cursor: pointer;
 }
@@ -41,10 +41,17 @@ header {
 }
 
 .top-menu {
-    width: 685px;
+    width: 250px;
     height: 80px;
     float: left;
+    margin-left: 400px;
+    margin-top: 30px;
+    text-align: right;
+    color: rgb(82, 82, 122);
+    font-size: 18px;
 }
+
+/*
 .top-menu ul li {
     list-style: none;
     float: left;
@@ -67,23 +74,21 @@ header {
     -ms-transition:all 0.5s ease;
     -moz-transition:all 0.5s ease;
     background: rgb(115, 206, 255);
-}
+}*/
 .block-top-auth {
-    width: 100px;
-    float: left;
-    margin-left: 30px;
+    width: 40px;
+    float: right;
+    margin-top: 30px;
     height: 80px;
+    margin-right: 35px;
 }
 .block-top-auth p {
-    margin-top: 12px;
     text-align: center;
-    margin-bottom: 8px;
 }
 .block-top-auth a {
     text-decoration: none;
-    text-decoration: underline;
     color: rgb(82, 82, 122);
-    font-size: 17px;
+    font-size: 22px;
     cursor: pointer;
 }
 .block-top-auth a:hover {
@@ -109,11 +114,6 @@ header {
     text-align: center;
     width: auto;
     padding: 0 15px;
-}
-
-#login {
-    background: url("img/vertical_cloth.png") repeat left top;
-    height: 100%;
 }
 
 #login .login-wr {

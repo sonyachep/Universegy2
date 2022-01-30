@@ -90,7 +90,7 @@ def students():
                                                  'date': sorted_tasks}
     print(people)
 
-    return render_template('students.html', people=people)
+    return render_template('students.html', people=people, surname=current_user.surname.capitalize(), name=current_user.name.capitalize())
 
 
 def main():
