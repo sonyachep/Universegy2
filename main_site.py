@@ -24,14 +24,17 @@ def load_user(user_id):
 
 @app.route('/')
 def start():
-    return render_template('universegy.html')
+    try:
+        return render_template('universegy.html',
+                               greeting=f'Добро пожаловать {current_user.name.capitalize()} {current_user.surname.capitalize()}!')
+    except AttributeError:
+        return render_template('universegy.html', greeting='Зарегиструруйтесь чтобы продолжить')
 
 
 @app.route('/log_in', methods=['GET', 'POST'])
 def log_in():
     form = LoginForm()
     if form.validate_on_submit():
-        print(1)
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.login == form.login.data).first()
         if user and user.check_password(form.password.data):
@@ -44,19 +47,20 @@ def log_in():
         return render_template('log_in.html',
                                message="Неверный логин или пароль",
                                form=form)
-
     return render_template('log_in.html', title='Авторизация', form=form)
 
 
 @app.route('/log_out')
-@login_required
 def logout():
-    logout_user()
-    return redirect("/")
+    try:
+        name = current_user.name
+        logout_user()
+        return redirect("/")
+    except AttributeError:
+        return redirect("/")
 
 
 @app.route('/students', methods=['GET', 'POST'])
-@login_required
 def students():
     db_sess = db_session.create_session()
     users = db_sess.query(User).all()
@@ -88,9 +92,11 @@ def students():
                                                            2: sum_second,
                                                            3: sum_third},
                                                  'date': sorted_tasks}
-    print(people)
-
-    return render_template('students.html', people=people, surname=current_user.surname.capitalize(), name=current_user.name.capitalize())
+    try:
+        return render_template('students.html', people=people,
+                               greeting=f'Добро пожаловать {current_user.name.capitalize()} {current_user.surname.capitalize()}!')
+    except AttributeError:
+        return render_template('students.html', people={}, greeting='Зарегиструруйтесь чтобы продолжить')
 
 
 def main():
