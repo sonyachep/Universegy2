@@ -1,0 +1,200 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+body {
+    background-color: rgb(255, 255, 210);
+}
+#block-body {
+    width: 1035px;
+    margin: 5px auto;
+    height: auto;
+}
+header {
+   width: 1035px;
+   height: 80px;
+   background-color: rgb(217, 247, 255);
+   border: 1px solid rgb(82, 82, 122);
+}
+#block-content {
+    width: 1035px;
+    height: auto;
+    min-height: 500px;
+}
+.logo {
+    width: 200px;
+    float: left;
+    height: 80px;
+}
+.logo a {
+    display: block;
+    margin-left: 15px;
+    margin-top: 25px;
+    font-size: 28px;
+    color:  #b2aeb2;
+    text-decoration: none;
+    cursor: pointer;
+}
+.universegy {
+    color: rgb(82, 82, 122);;
+}
+
+.top-menu {
+    width: 685px;
+    height: 80px;
+    float: left;
+}
+.top-menu ul li {
+    list-style: none;
+    float: left;
+    text-align: center;
+}
+.top-menu ul li a {
+    display: block;
+    width: 171px;
+    text-decoration: none;
+    font-size: 20px;
+    color: rgb(82, 82, 122);
+    height: 55px;
+    padding-top: 30px;
+    cursor: pointer;
+}
+.top-menu ul li a:hover {
+    transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition:all 0.5s ease;
+    -moz-transition:all 0.5s ease;
+    background: rgb(115, 206, 255);
+}
+.block-top-auth {
+    width: 100px;
+    float: left;
+    margin-left: 30px;
+    height: 80px;
+}
+.block-top-auth p {
+    margin-top: 12px;
+    text-align: center;
+    margin-bottom: 8px;
+}
+.block-top-auth a {
+    text-decoration: none;
+    text-decoration: underline;
+    color: rgb(82, 82, 122);
+    font-size: 17px;
+    cursor: pointer;
+}
+.block-top-auth a:hover {
+    transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition:all 0.5s ease;
+    -moz-transition:all 0.5s ease;
+    color: rgb(0, 206, 255);
+}
+
+.outer {
+    display: table;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+.inner {
+    text-align: center;
+    width: auto;
+    padding: 0 15px;
+}
+
+#login {
+    background: url("img/vertical_cloth.png") repeat left top;
+    height: 100%;
+}
+
+#login .login-wr {
+    position: relative;
+    margin-top: 10% ;
+    margin-left: auto;
+    margin-right: auto;
+    background: #ecf0f1;
+    max-width: 400px;
+    border-radius: 5px;
+    border-top: 4px solid rgb(115, 206, 255);
+    box-shadow: 1px 1px 3px #333;
+    padding: 15px;
+}
+
+#login h2 {
+    text-align: center;
+    font-weight: 200;
+    font-size: 2em;
+    margin-top: 20px;
+    color: rgb(82, 82, 122);
+}
+
+#login .form {
+    padding-top: 20px;
+    text-align: center;
+}
+
+#login input[type="text"],
+#login input[type="password"],
+#login button {
+    width: 80%;
+    margin-bottom: 25px;
+    height: 10px;
+    border-radius: 5px;
+    outline: 0;
+    -moz-outline-style: none;
+}
+
+#login input[type="text"],
+#login input[type="password"] {
+    border: 1px solid #bbb;
+    padding: 0 0 0 10px;
+    font-size: 14px;
+}
+
+#login button {
+    color: rgb(82, 82, 122);
+    background-color: rgb(217, 247, 255);
+    border: 1px solid  rgb(82, 82, 122);
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 200;
+    cursor: pointer;
+    transition: box-shadow .4s ease;
+}
+
+#table {
+  border-collapse: collapse;
+  border: 2px solid rgb(200,200,200);
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+}
+
+#td, th {
+  border: 1px solid rgb(190,190,190);
+  padding: 10px 20px;
+}
+
+#th {
+  background-color: rgb(235,235,235);
+}
+
+#td {
+  text-align: center;
+}
+
+#tr:nth-child(even) td {
+  background-color: rgb(250,250,250);
+}
+
+#tr:nth-child(odd) td {
+  background-color: rgb(245,245,245);
+}

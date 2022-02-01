@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static',filename='design.css') }}">
+    <title>Главная страница</title>
+</head>
+<body>
+
+<div id="block-body">
+    <header>
+        <div class="logo">
+            <a href="/">
+                <span class="universegy">UNIVERSEGY</span>
+            </a>
+        </div>
+
+        <div class="top-menu">
+            <ul>
+                <li><a href="students">Ученики</a></li>
+                <li>{{ greeting }}</li>
+            </ul>
+        </div>
+
+        <div class="block-top-auth">
+            <p><a href="log_in">Вход</a></p>
+            <p><a href="log_out">Выход</a></p>
+        </div>
+
+
+    </header>
+</div>
+
+</body>
+</html>
