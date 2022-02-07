@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QScrollArea, QWidget, QVB
 from data import db_session
 from data.users import User
 from data.tasks import Tasks
+import requests
 
 from database import *
 
@@ -208,8 +209,12 @@ class Universegy(QMainWindow):
             self.wrong_answer = 0
         self.stackedWidget.setCurrentIndex(4)
         try:
-            self.task_number, self.right_answer = self.db.get_task_amount_and_right(self.current_user, self.block,
-                                                                                    str(datetime.datetime.now().date()))
+            # self.task_number, self.right_answer = self.db.get_task_amount_and_right(self.current_user, self.block,
+            #                                                                         str(datetime.datetime.now().date()))
+            self.task_number, self.right_answer = requests.get('http://127.0.0.1:5000/db/get_task_amount_and_right',
+                                                               json={'user_id': self.current_user,
+                                                                     'task_block': self.block,
+                                                                     'date': str(datetime.datetime.now().date())}).text
             self.wrong_answer = self.task_number - self.right_answer
             self.task_number += 1
         except IndexError:
@@ -235,18 +240,24 @@ class Universegy(QMainWindow):
     def log_in(self):
         login = self.login_in_edit.text()
         password = self.password_in_edit.text()
-        self.current_user, self.logged, error = self.db.log_in(login, password)
+        # self.current_user, self.logged, error = self.db.log_in(login, password)
+        self.current_user, self.logged, error = requests.get('http://127.0.0.1:5000/db/log_in',
+                                                             json={'login': login, 'password': password}).text
         if not error:
             self.run_to_page4()
         self.login_error_label.setText(error)
 
+    #TODO MAKE POST
     def registrate(self):
         name = self.name_edit.text()
         surname = self.surname_edit.text()
         student_class = self.class_choice.currentText()
         login = self.login_edit.text()
         password = self.password_edit.text()
-        error = self.db.registration(name, surname, student_class, login, password)
+        # error = self.db.registration(name, surname, student_class, login, password)
+        error = requests.get('http://127.0.0.1:5000/db/registration',
+                             json={'name': name, 'surname': surname, 'student_class': student_class, 'login': login,
+                                   'password': password}).text
         if not error:
             self.run_to_page1()
         self.registrationerror_label.setText(error)
@@ -283,12 +294,16 @@ class Universegy(QMainWindow):
         # self.answer_edit.setText(self.answers[self.block][self.task_number])
         # break
 
+    #TODO MAKE POST INSTEAD OF DB REFERENCES
     def write_current_answer(self):
         student_answer = self.answer_edit.text()
         self.answer_edit.setText('')
         self.check_answer(student_answer)
         self.task_number += 1
-        if self.db.get_relation(self.current_user, self.block, date=str(datetime.datetime.now().date())):
+        # if self.db.get_relation(self.current_user, self.block, date=str(datetime.datetime.now().date())):
+        if requests.get('http://127.0.0.1:5000/db/get_relation',
+                        json={'current_user': self.current_user, 'task_block': self.block,
+                              'date': str(datetime.datetime.now().date())}):
             self.db.update_relation(self.current_user, self.block, self.task_number - 1, self.right_answer,
                                     date=str(datetime.datetime.now().date()))
         else:

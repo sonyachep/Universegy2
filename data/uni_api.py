@@ -22,7 +22,6 @@ def abort_if_deck_not_found(id):
 
 class UniResource(Resource):
     def get(self, id):
-        abort_if_deck_not_found(id)
         session = db_session.create_session()
         user = session.query(User).get(id)
         task = session.query(Tasks).filter(Tasks.user_id == id).all()

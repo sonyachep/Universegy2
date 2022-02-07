@@ -5,8 +5,10 @@ from data.users import User
 from data.tasks import Tasks
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_restful import Api
+from database import Database
 
 db_session.global_init("db/Universegy.db")
+db = Database()
 
 app = Flask(__name__)
 api = Api(app)
@@ -98,6 +100,46 @@ def students():
     except AttributeError:
         return render_template('students.html', people={}, greeting='Зарегиструруйтесь чтобы продолжить')
 
+
+@app.route('/db/get_task_amount_and_right', methods=['GET'])
+def get_task_amount_and_right():
+    if request.method == 'GET':
+        user_id = request.json['user_id']
+        task_block = request.json['task_block']
+        date = request.json['date']
+        task_number, right_answer = db.get_task_amount_and_right(user_id, task_block, date=date)
+        return task_number, right_answer
+
+
+@app.route('/db/log_in', methods=['GET'])
+def log_in():
+    if request.method == 'GET':
+        login = request.json['login']
+        password = request.json['password']
+        user, logged, error = db.log_in(login, password)
+        return user, logged, error
+
+@app.route('/db/registration', methods=['GET'])
+def registration():
+    if request.method == 'GET':
+        name = request.json['name']
+        surname = request.json['surname']
+        student_class = request.json['student_class']
+        login = request.json['login']
+        password = request.json['password']
+        error = db.registration(name, surname, student_class, login, password)
+        return error
+
+@app.route('/db/get_relation', methods=['GET'])
+def get_relation():
+    if request.method == 'GET':
+        user = request.json['current_user']
+        task_block = request.json['task_block']
+        date = request.json['date']
+        response = db.get_relation(user, task_block, date=date)
+        return response
+
+#TODO MAKE 2 POST FUNCS
 
 def main():
     db_session.global_init("db/Universegy.db")

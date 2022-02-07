@@ -1,18 +1,4 @@
-from data import db_session
-from flask_restful import Api
-from flask import Flask, render_template, redirect, request, abort
-from data import uni_api
+import requests
 
-
-app = Flask(__name__)
-api = Api(app)
-
-
-def main():
-    db_session.global_init("db/Universegy.db")
-    api.add_resource(uni_api.UniResourse, '/api/uni/<int:id>')
-    app.run()
-
-
-if __name__ == '__main__':
-    main()
+r = requests.get('http://127.0.0.1:5000//api/uni/1')
+print(r.text)
