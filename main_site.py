@@ -108,27 +108,30 @@ def get_task_amount_and_right():
         task_block = request.json['task_block']
         date = request.json['date']
         task_number, right_answer = db.get_task_amount_and_right(user_id, task_block, date=date)
-        return task_number, right_answer
+        return {'task_number': task_number, 'right_answer': right_answer}
 
 
 @app.route('/db/log_in', methods=['GET'])
-def log_in():
+def db_log_in():
     if request.method == 'GET':
         login = request.json['login']
         password = request.json['password']
         user, logged, error = db.log_in(login, password)
-        return user, logged, error
+        return {'user': user, 'logged': logged, 'error': error}
 
-@app.route('/db/registration', methods=['GET'])
-def registration():
-    if request.method == 'GET':
+
+@app.route('/db/registration', methods=['POST'])
+def db_registration():
+    if request.method == 'POST':
         name = request.json['name']
         surname = request.json['surname']
         student_class = request.json['student_class']
         login = request.json['login']
         password = request.json['password']
         error = db.registration(name, surname, student_class, login, password)
-        return error
+        return {'error': error}
+    return
+
 
 @app.route('/db/get_relation', methods=['GET'])
 def get_relation():
@@ -137,9 +140,39 @@ def get_relation():
         task_block = request.json['task_block']
         date = request.json['date']
         response = db.get_relation(user, task_block, date=date)
-        return response
+        if response:
+            return {'response': response.id}
+        return {'response': False}
+    return
 
-#TODO MAKE 2 POST FUNCS
+
+@app.route('/db/update_relation', methods=['POST'])
+def update_relation():
+    if request.method == 'POST':
+        user = request.json['current_user']
+        task_block = request.json['task_block']
+        task_number = request.json['task_number']
+        right_answer = request.json['right_answer']
+        date = request.json['date']
+        response = db.update_relation(user, task_block, task_number, right_answer,
+                                      date=date)
+        return
+    return
+
+
+@app.route('/db/add_relation', methods=['POST'])
+def add_relation():
+    if request.method == 'POST':
+        user = request.json['current_user']
+        task_block = request.json['task_block']
+        task_number = request.json['task_number']
+        right_answer = request.json['right_answer']
+        response = db.add_relation(user, task_block, task_number, right_answer)
+        return
+    return
+
+
+# TODO MAKE 2 POST FUNCS
 
 def main():
     db_session.global_init("db/Universegy.db")

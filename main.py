@@ -211,10 +211,11 @@ class Universegy(QMainWindow):
         try:
             # self.task_number, self.right_answer = self.db.get_task_amount_and_right(self.current_user, self.block,
             #                                                                         str(datetime.datetime.now().date()))
-            self.task_number, self.right_answer = requests.get('http://127.0.0.1:5000/db/get_task_amount_and_right',
-                                                               json={'user_id': self.current_user,
-                                                                     'task_block': self.block,
-                                                                     'date': str(datetime.datetime.now().date())}).text
+            response = requests.get('http://127.0.0.1:5000/db/get_task_amount_and_right',
+                                    json={'user_id': self.current_user,
+                                          'task_block': self.block,
+                                          'date': str(datetime.datetime.now().date())}).json()
+            self.task_number, self.right_answer = response['task_number'], response['right_answer']
             self.wrong_answer = self.task_number - self.right_answer
             self.task_number += 1
         except IndexError:
@@ -241,13 +242,14 @@ class Universegy(QMainWindow):
         login = self.login_in_edit.text()
         password = self.password_in_edit.text()
         # self.current_user, self.logged, error = self.db.log_in(login, password)
-        self.current_user, self.logged, error = requests.get('http://127.0.0.1:5000/db/log_in',
-                                                             json={'login': login, 'password': password}).text
+        response = requests.get('http://127.0.0.1:5000/db/log_in',
+                                json={'login': login, 'password': password}).json()
+        self.current_user, self.logged, error = response['user'], response['logged'], response['error']
         if not error:
             self.run_to_page4()
         self.login_error_label.setText(error)
 
-    #TODO MAKE POST
+    # TODO MAKE POST
     def registrate(self):
         name = self.name_edit.text()
         surname = self.surname_edit.text()
@@ -255,9 +257,9 @@ class Universegy(QMainWindow):
         login = self.login_edit.text()
         password = self.password_edit.text()
         # error = self.db.registration(name, surname, student_class, login, password)
-        error = requests.get('http://127.0.0.1:5000/db/registration',
-                             json={'name': name, 'surname': surname, 'student_class': student_class, 'login': login,
-                                   'password': password}).text
+        error = requests.post('http://127.0.0.1:5000/db/registration',
+                              json={'name': name, 'surname': surname, 'student_class': student_class, 'login': login,
+                                    'password': password}).json()['error']
         if not error:
             self.run_to_page1()
         self.registrationerror_label.setText(error)
@@ -294,7 +296,7 @@ class Universegy(QMainWindow):
         # self.answer_edit.setText(self.answers[self.block][self.task_number])
         # break
 
-    #TODO MAKE POST INSTEAD OF DB REFERENCES
+    # TODO MAKE POST INSTEAD OF DB REFERENCES
     def write_current_answer(self):
         student_answer = self.answer_edit.text()
         self.answer_edit.setText('')
@@ -303,11 +305,18 @@ class Universegy(QMainWindow):
         # if self.db.get_relation(self.current_user, self.block, date=str(datetime.datetime.now().date())):
         if requests.get('http://127.0.0.1:5000/db/get_relation',
                         json={'current_user': self.current_user, 'task_block': self.block,
-                              'date': str(datetime.datetime.now().date())}):
-            self.db.update_relation(self.current_user, self.block, self.task_number - 1, self.right_answer,
-                                    date=str(datetime.datetime.now().date()))
+                              'date': str(datetime.datetime.now().date())}).json()['response']:
+            requests.post('http://127.0.0.1:5000/db/update_relation',
+                          json={'current_user': self.current_user, 'task_block': self.block,
+                                'task_number': self.task_number - 1, 'right_answer': self.right_answer,
+                                'date': str(datetime.datetime.now().date())})
+            # self.db.update_relation(self.current_user, self.block, self.task_number - 1, self.right_answer,
+            #                         date=str(datetime.datetime.now().date()))
         else:
-            self.db.add_relation(self.current_user, self.block, self.task_number - 1, self.right_answer)
+            requests.post('http://127.0.0.1:5000/db/add_relation',
+                          json={'current_user': self.current_user, 'task_block': self.block,
+                                'task_number': self.task_number - 1, 'right_answer': self.right_answer})
+            # self.db.add_relation(self.current_user, self.block, self.task_number - 1, self.right_answer)
         # self.right_label.setText(str(self.right_answer))
         # self.wrong_label.setText(str(self.wrong_answer))
         # self.task_amount.setText(str(self.task_number))

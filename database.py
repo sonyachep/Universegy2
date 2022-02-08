@@ -83,8 +83,10 @@ class Database:
     def update_relation(self, user_id, task_block, tasks_done, right_answer, date):
         connect = sqlite3.connect('db/Universegy.db')
         cur = connect.cursor()
-        cur.execute('''UPDATE relations SET tasks_done = ? WHERE user_id = ? and date = ? and task_block = ?''', (tasks_done, user_id, date, task_block))
-        cur.execute('''UPDATE relations SET right_answers = ? WHERE user_id = ? and date = ? and task_block = ?''', (right_answer, user_id, date, task_block))
+        cur.execute('''UPDATE relations SET tasks_done = ? WHERE user_id = ? and date = ? and task_block = ?''',
+                    (tasks_done, user_id, date, task_block))
+        cur.execute('''UPDATE relations SET right_answers = ? WHERE user_id = ? and date = ? and task_block = ?''',
+                    (right_answer, user_id, date, task_block))
         connect.commit()
 
 
