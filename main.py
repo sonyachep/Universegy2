@@ -158,6 +158,7 @@ class Universegy(QMainWindow):
         self.login_edit.setText('')
         self.password_edit.setText('')
         self.registrationerror_label.setText('')
+        self.server_error.setText('')
         self.stackedWidget.setCurrentIndex(2)
 
     def run_to_page4(self):
@@ -242,14 +243,17 @@ class Universegy(QMainWindow):
         login = self.login_in_edit.text()
         password = self.password_in_edit.text()
         # self.current_user, self.logged, error = self.db.log_in(login, password)
-        response = requests.get('http://127.0.0.1:5000/db/log_in',
-                                json={'login': login, 'password': password}).json()
-        self.current_user, self.logged, error = response['user'], response['logged'], response['error']
-        if not error:
-            self.run_to_page4()
-        self.login_error_label.setText(error)
+        try:
+            response = requests.get('http://127.0.0.1:5000/db/log_in',
+                                    json={'login': login, 'password': password}).json()
+            self.current_user, self.logged, error = response['user'], response['logged'], response['error']
+            if not error:
+                self.run_to_page4()
+            self.login_error_label.setText(error)
+        except:
+            self.login_error_label.setText('Отсутствует подключение к сервису Universegy')
 
-    # TODO MAKE POST
+
     def registrate(self):
         name = self.name_edit.text()
         surname = self.surname_edit.text()
@@ -257,12 +261,15 @@ class Universegy(QMainWindow):
         login = self.login_edit.text()
         password = self.password_edit.text()
         # error = self.db.registration(name, surname, student_class, login, password)
-        error = requests.post('http://127.0.0.1:5000/db/registration',
-                              json={'name': name, 'surname': surname, 'student_class': student_class, 'login': login,
-                                    'password': password}).json()['error']
-        if not error:
-            self.run_to_page1()
-        self.registrationerror_label.setText(error)
+        try:
+            error = requests.post('http://127.0.0.1:5000/db/registration',
+                                  json={'name': name, 'surname': surname, 'student_class': student_class, 'login': login,
+                                        'password': password}).json()['error']
+            if not error:
+                self.run_to_page1()
+            self.registrationerror_label.setText(error)
+        except:
+            self.server_error.setText('Отсутствует подключение к сервису Universegy')
 
     def show_tasks(self):
         self.right_label.setText(str(self.right_answer))
