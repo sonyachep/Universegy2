@@ -3,15 +3,10 @@ import random
 
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QScrollArea, QWidget, QVBoxLayout
-
-from data import db_session
-from data.users import User
-from data.tasks import Tasks
+import datetime
 import requests
 
-from database import *
-
-db_session.global_init("db/Universegy.db")
+IP = 'https://phela.pythonanywhere.com/'
 
 INTEGERS = {'целого': [10, 1],
             'десятков': [100, 2],
@@ -82,8 +77,6 @@ def make_task(block):
 
 class Universegy(QMainWindow):
     def __init__(self):
-        self.db = Database()
-        self.users = Users()
 
         super().__init__()
         uic.loadUi('universegy.ui', self)
@@ -170,26 +163,6 @@ class Universegy(QMainWindow):
     def run_to_page5(self):
         self.answer_edit.setText('')
         self.task_view.setText('')
-        # self.task1_label.setStyleSheet('background-color: rgb(217, 247, 255); border-radius: 6px')
-        # self.task2_label.setStyleSheet('background-color: rgb(217, 247, 255); border-radius: 6px')
-        # self.task3_label.setStyleSheet('background-color: rgb(217, 247, 255); border-radius: 6px')
-        # self.task4_label.setStyleSheet('background-color: rgb(217, 247, 255); border-radius: 6px')
-        # self.task5_label.setStyleSheet('background-color: rgb(217, 247, 255); border-radius: 6px')
-        # self.task6_label.setStyleSheet('background-color: rgb(217, 247, 255); border-radius: 6px')
-        # self.task7_label.setStyleSheet('background-color: rgb(217, 247, 255); border-radius: 6px')
-        # self.task8_label.setStyleSheet('background-color: rgb(217, 247, 255); border-radius: 6px')
-        # self.task9_label.setStyleSheet('background-color: rgb(217, 247, 255); border-radius: 6px')
-        # self.task10_label.setStyleSheet('background-color: rgb(217, 247, 255); border-radius: 6px')
-        # self.task11_label.setStyleSheet('background-color: rgb(217, 247, 255); border-radius: 6px')
-        # self.task12_label.setStyleSheet('background-color: rgb(217, 247, 255); border-radius: 6px')
-        # self.task13_label.setStyleSheet('background-color: rgb(217, 247, 255); border-radius: 6px')
-        # self.task14_label.setStyleSheet('background-color: rgb(217, 247, 255); border-radius: 6px')
-        # self.task15_label.setStyleSheet('background-color: rgb(217, 247, 255); border-radius: 6px')
-        # self.task16_label.setStyleSheet('background-color: rgb(217, 247, 255); border-radius: 6px')
-        # self.task17_label.setStyleSheet('background-color: rgb(217, 247, 255); border-radius: 6px')
-        # self.task18_label.setStyleSheet('background-color: rgb(217, 247, 255); border-radius: 6px')
-        # self.task19_label.setStyleSheet('background-color: rgb(217, 247, 255); border-radius: 6px')
-        # self.task20_label.setStyleSheet('background-color: rgb(217, 247, 255); border-radius: 6px')
         block = self.sender().text()
         if block == 'Округление целых чисел':
             self.block = 1
@@ -210,9 +183,7 @@ class Universegy(QMainWindow):
             self.wrong_answer = 0
         self.stackedWidget.setCurrentIndex(4)
         try:
-            # self.task_number, self.right_answer = self.db.get_task_amount_and_right(self.current_user, self.block,
-            #                                                                         str(datetime.datetime.now().date()))
-            response = requests.get('http://127.0.0.1:5000/db/get_task_amount_and_right',
+            response = requests.get(f'{IP}/db/get_task_amount_and_right',
                                     json={'user_id': self.current_user,
                                           'task_block': self.block,
                                           'date': str(datetime.datetime.now().date())}).json()
@@ -242,9 +213,8 @@ class Universegy(QMainWindow):
     def log_in(self):
         login = self.login_in_edit.text()
         password = self.password_in_edit.text()
-        # self.current_user, self.logged, error = self.db.log_in(login, password)
         try:
-            response = requests.get('http://127.0.0.1:5000/db/log_in',
+            response = requests.get(f'{IP}/db/log_in',
                                     json={'login': login, 'password': password}).json()
             self.current_user, self.logged, error = response['user'], response['logged'], response['error']
             if not error:
@@ -253,17 +223,16 @@ class Universegy(QMainWindow):
         except:
             self.login_error_label.setText('Отсутствует подключение к сервису Universegy')
 
-
     def registrate(self):
         name = self.name_edit.text()
         surname = self.surname_edit.text()
         student_class = self.class_choice.currentText()
         login = self.login_edit.text()
         password = self.password_edit.text()
-        # error = self.db.registration(name, surname, student_class, login, password)
         try:
-            error = requests.post('http://127.0.0.1:5000/db/registration',
-                                  json={'name': name, 'surname': surname, 'student_class': student_class, 'login': login,
+            error = requests.post(f'{IP}/db/registration',
+                                  json={'name': name, 'surname': surname, 'student_class': student_class,
+                                        'login': login,
                                         'password': password}).json()['error']
             if not error:
                 self.run_to_page1()
@@ -275,58 +244,28 @@ class Universegy(QMainWindow):
         self.right_label.setText(str(self.right_answer))
         self.wrong_label.setText(str(self.wrong_answer))
         self.task_amount.setText(str(self.task_number))
-        # if self.sender().text() == '<-':
-        #     self.task_number -= 1
         if self.sender().text() == '->':
             self.task_number += 1
             self.wrong_answer += 1
-        # else:
-        #     self.task_number = int(self.sender().text()[8:])
-        # if self.task_number > 20:
-        #     self.task_number = 20
-        # if self.task_number < 1:
-        #     self.task_number = 1
-        # if self.answers[self.block][self.task_number]:
-        #     self.set_answer.hide()
-        #     self.answer_edit.setText(str(self.answers[self.block][self.task_number]))
-        # else:
-        #     self.set_answer.show()
-        # tasks = self.tasks.get_block(self.block)
-        # for elem in tasks:
-        #     id, text, answer = elem
-        #     id = id % 20
-        #     if id == 0:
-        #         id = 20
-        #     if id == self.task_number:
         text, self.answer = make_task(self.block)
         self.task_view.setText(text)
-        # self.answer_edit.setText(self.answers[self.block][self.task_number])
-        # break
 
-    # TODO MAKE POST INSTEAD OF DB REFERENCES
     def write_current_answer(self):
         student_answer = self.answer_edit.text()
         self.answer_edit.setText('')
         self.check_answer(student_answer)
         self.task_number += 1
-        # if self.db.get_relation(self.current_user, self.block, date=str(datetime.datetime.now().date())):
-        if requests.get('http://127.0.0.1:5000/db/get_relation',
+        if requests.get(f'{IP}/db/get_relation',
                         json={'current_user': self.current_user, 'task_block': self.block,
                               'date': str(datetime.datetime.now().date())}).json()['response']:
-            requests.post('http://127.0.0.1:5000/db/update_relation',
+            requests.post(f'{IP}/db/update_relation',
                           json={'current_user': self.current_user, 'task_block': self.block,
                                 'task_number': self.task_number - 1, 'right_answer': self.right_answer,
                                 'date': str(datetime.datetime.now().date())})
-            # self.db.update_relation(self.current_user, self.block, self.task_number - 1, self.right_answer,
-            #                         date=str(datetime.datetime.now().date()))
         else:
-            requests.post('http://127.0.0.1:5000/db/add_relation',
+            requests.post(f'{IP}/db/add_relation',
                           json={'current_user': self.current_user, 'task_block': self.block,
                                 'task_number': self.task_number - 1, 'right_answer': self.right_answer})
-            # self.db.add_relation(self.current_user, self.block, self.task_number - 1, self.right_answer)
-        # self.right_label.setText(str(self.right_answer))
-        # self.wrong_label.setText(str(self.wrong_answer))
-        # self.task_amount.setText(str(self.task_number))
         self.show_tasks()
 
     def check_answer(self, student_answer):
@@ -336,90 +275,6 @@ class Universegy(QMainWindow):
         else:
             self.wrong_answer += 1
             self.previous_answer.setText(f'Предыдущий ответ был: {self.answer}, будь внимательнее!')
-            # self.db.add_relation(self.current_user, id + (20 * (self.block - 1)))
-            # self.answers[self.block][self.task_number] = student_answer
-            # self.set_answer.hide()
-        #     if id == 1:
-        #         self.task1_label.setStyleSheet('background-color: rgb(0, 255, 0); border-radius: 6px')
-        #     if id == 2:
-        #         self.task2_label.setStyleSheet('background-color: rgb(0, 255, 0); border-radius: 6px')
-        #     if id == 3:
-        #         self.task3_label.setStyleSheet('background-color: rgb(0, 255, 0); border-radius: 6px')
-        #     if id == 4:
-        #         self.task4_label.setStyleSheet('background-color: rgb(0, 255, 0); border-radius: 6px')
-        #     if id == 5:
-        #         self.task5_label.setStyleSheet('background-color: rgb(0, 255, 0); border-radius: 6px')
-        #     if id == 6:
-        #         self.task6_label.setStyleSheet('background-color: rgb(0, 255, 0); border-radius: 6px')
-        #     if id == 7:
-        #         self.task7_label.setStyleSheet('background-color: rgb(0, 255, 0); border-radius: 6px')
-        #     if id == 8:
-        #         self.task8_label.setStyleSheet('background-color: rgb(0, 255, 0); border-radius: 6px')
-        #     if id == 9:
-        #         self.task9_label.setStyleSheet('background-color: rgb(0, 255, 0); border-radius: 6px')
-        #     if id == 10:
-        #         self.task10_label.setStyleSheet('background-color: rgb(0, 255, 0); border-radius: 6px')
-        #     if id == 11:
-        #         self.task11_label.setStyleSheet('background-color: rgb(0, 255, 0); border-radius: 6px')
-        #     if id == 12:
-        #         self.task12_label.setStyleSheet('background-color: rgb(0, 255, 0); border-radius: 6px')
-        #     if id == 13:
-        #         self.task13_label.setStyleSheet('background-color: rgb(0, 255, 0); border-radius: 6px')
-        #     if id == 14:
-        #         self.task14_label.setStyleSheet('background-color: rgb(0, 255, 0); border-radius: 6px')
-        #     if id == 15:
-        #         self.task15_label.setStyleSheet('background-color: rgb(0, 255, 0); border-radius: 6px')
-        #     if id == 16:
-        #         self.task16_label.setStyleSheet('background-color: rgb(0, 255, 0); border-radius: 6px')
-        #     if id == 17:
-        #         self.task17_label.setStyleSheet('background-color: rgb(0, 255, 0); border-radius: 6px')
-        #     if id == 18:
-        #         self.task18_label.setStyleSheet('background-color: rgb(0, 255, 0); border-radius: 6px')
-        #     if id == 19:
-        #         self.task19_label.setStyleSheet('background-color: rgb(0, 255, 0); border-radius: 6px')
-        #     if id == 20:
-        #         self.task20_label.setStyleSheet('background-color: rgb(0, 255, 0); border-radius: 6px')
-        # else:
-        #     if id == 1:
-        #         self.task1_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
-        #     if id == 2:
-        #         self.task2_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
-        #     if id == 3:
-        #         self.task3_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
-        #     if id == 4:
-        #         self.task4_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
-        #     if id == 5:
-        #         self.task5_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
-        #     if id == 6:
-        #         self.task6_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
-        #     if id == 7:
-        #         self.task7_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
-        #     if id == 8:
-        #         self.task8_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
-        #     if id == 9:
-        #         self.task9_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
-        #     if id == 10:
-        #         self.task10_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
-        #     if id == 11:
-        #         self.task11_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
-        #     if id == 12:
-        #         self.task12_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
-        #     if id == 13:
-        #         self.task13_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
-        #     if id == 14:
-        #         self.task14_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
-        #     if id == 15:
-        #         self.task15_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
-        #     if id == 16:
-        #         self.task16_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
-        #     if id == 17:
-        #         self.task17_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
-        #     if id == 18:
-        #         self.task18_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
-        #     if id == 19:
-        #         self.task19_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
-        #     if id == 20:
-        #         self.task20_label.setStyleSheet('background-color: rgb(255, 0, 0); border-radius: 6px')
 
 
 def except_hook(cls, exception, traceback):

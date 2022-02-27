@@ -94,11 +94,13 @@ def students():
                                                            2: sum_second,
                                                            3: sum_third},
                                                  'date': sorted_tasks}
+    print(people.items())
+    max_data = len(sorted(people.items(), key=lambda x: -len(x[1]['date']))[0][1]['date'])
     try:
-        return render_template('students.html', people=people,
+        return render_template('students.html', people=people, max_data=max_data,
                                greeting=f'Добро пожаловать {current_user.name.capitalize()} {current_user.surname.capitalize()}!')
     except AttributeError:
-        return render_template('students.html', people={}, greeting='Зарегиструруйтесь чтобы продолжить')
+        return render_template('students.html', people={}, max_data=0, greeting='Зарегиструруйтесь чтобы продолжить')
 
 
 @app.route('/db/get_task_amount_and_right', methods=['GET'])
