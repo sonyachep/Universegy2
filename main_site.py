@@ -28,9 +28,9 @@ def load_user(user_id):
 def start():
     try:
         return render_template('universegy.html',
-                               greeting=f'Добро пожаловать {current_user.name.capitalize()} {current_user.surname.capitalize()}!')
+                               greeting=f'Добро пожаловать, {current_user.name.capitalize()} {current_user.surname.capitalize()}!')
     except AttributeError:
-        return render_template('universegy.html', greeting='Зарегиструруйтесь чтобы продолжить')
+        return render_template('universegy.html', greeting='Зарегиструруйтесь, чтобы продолжить')
 
 
 @app.route('/log_in', methods=['GET', 'POST'])
@@ -94,7 +94,6 @@ def students():
                                                            2: sum_second,
                                                            3: sum_third},
                                                  'date': sorted_tasks}
-    print(people.items())
     max_data = len(sorted(people.items(), key=lambda x: -len(x[1]['date']))[0][1]['date'])
     try:
         return render_template('students.html', people=people, max_data=max_data,
@@ -173,8 +172,6 @@ def add_relation():
         return
     return
 
-
-# TODO MAKE 2 POST FUNCS
 
 def main():
     db_session.global_init("db/Universegy.db")
